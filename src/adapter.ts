@@ -25,11 +25,13 @@ type CasbinRuleConstructor = new (...args: any[]) => GenericCasbinRule;
  */
 export default class TypeORMAdapter implements FilteredAdapter {
     private option: ConnectionOptions;
+    private findOptions: FindManyOptions;
     private typeorm: Connection;
     private filtered = false;
 
-    private constructor(option: ConnectionOptions) {
+    private constructor(option: ConnectionOptions, findOptions: FindManyOptions) {
         this.option = option;
+        this.findOptions = findOptions;
     }
 
     public isFiltered(): boolean {
@@ -40,14 +42,14 @@ export default class TypeORMAdapter implements FilteredAdapter {
      * newAdapter is the constructor.
      * @param option typeorm connection option
      */
-    public static async newAdapter(option: ConnectionOptions) {
+    public static async newAdapter(option: ConnectionOptions, findOptions: FindManyOptions = {}) {
         const defaults = {
             synchronize: true,
             name: 'node-casbin-official',
         };
         const entities = {entities: [this.getCasbinRuleType(option.type)]};
         const configuration = Object.assign(defaults, option);
-        const a = new TypeORMAdapter(Object.assign(configuration, entities));
+        const a = new TypeORMAdapter(Object.assign(configuration, entities), findOptions);
         await a.open();
         return a;
     }
@@ -77,11 +79,11 @@ export default class TypeORMAdapter implements FilteredAdapter {
     /**
      * loadPolicy loads all policy rules from the storage.
      */
-    public async loadPolicy(model: Model, options: FindManyOptions = {}) {
+    public async loadPolicy(model: Model) {
         const lines = await getRepository(
             this.getCasbinRuleConstructor(),
             this.option.name,
-        ).find(options);
+        ).find(this.findOptions);
 
         for (const line of lines) {
             this.loadPolicyLine(line, model);
