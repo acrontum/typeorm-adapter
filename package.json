@@ -29,11 +29,6 @@
     "casbin": "^1.1.2",
     "typeorm": "^0.2.7"
   },
-  "files": [
-    "lib",
-    "examples",
-    "src"
-  ],
   "homepage": "https://casbin.org",
   "repository": {
     "type": "git",
@@ -64,7 +59,7 @@
     "url": "https://github.com/acrontum/typeorm-adapter/issues"
   },
   "lint-staged": {
-    "*.{ts,js}": [
+    "**/src/*.{ts,js}": [
       "tslint --fix",
       "git add"
     ]
