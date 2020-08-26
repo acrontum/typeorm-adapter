@@ -14,7 +14,7 @@
 
 import {Helper, Model, FilteredAdapter} from 'casbin';
 import {CasbinRule} from './casbinRule';
-import {Connection, ConnectionOptions, createConnection, getRepository, getConnection, FindManyOptions, BaseEntity} from 'typeorm';
+import {Connection, ConnectionOptions, createConnection, getRepository, getConnection, FindManyOptions, BaseEntity, EntitySchema} from 'typeorm';
 import {CasbinMongoRule} from './casbinMongoRule';
 
 type GenericCasbinRule = CasbinRule | CasbinMongoRule;
@@ -269,6 +269,9 @@ export default class TypeORMAdapter implements FilteredAdapter {
     }
 
     private getCasbinRuleConstructor(): CasbinRuleConstructor {
+        if (this.option.entities) {
+            return this.option.entities[0] as CasbinRuleConstructor;
+        }
         return TypeORMAdapter.getCasbinRuleType(this.option.type);
     }
 
