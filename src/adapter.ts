@@ -14,7 +14,7 @@
 
 import {Helper, Model, FilteredAdapter} from 'casbin';
 import {CasbinRule} from './casbinRule';
-import {Connection, ConnectionOptions, createConnection, getRepository, getConnection} from 'typeorm';
+import {Connection, ConnectionOptions, createConnection, getRepository, getConnection, FindManyOptions} from 'typeorm';
 import {CasbinMongoRule} from './casbinMongoRule';
 
 type GenericCasbinRule = CasbinRule | CasbinMongoRule;
@@ -77,8 +77,11 @@ export default class TypeORMAdapter implements FilteredAdapter {
     /**
      * loadPolicy loads all policy rules from the storage.
      */
-    public async loadPolicy(model: Model) {
-        const lines = await getRepository(this.getCasbinRuleConstructor(), this.option.name).find();
+    public async loadPolicy(model: Model, options: FindManyOptions = {}) {
+        const lines = await getRepository(
+            this.getCasbinRuleConstructor(),
+            this.option.name,
+        ).find(options);
 
         for (const line of lines) {
             this.loadPolicyLine(line, model);
