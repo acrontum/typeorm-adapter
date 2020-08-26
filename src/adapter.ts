@@ -45,13 +45,14 @@ export default class TypeORMAdapter implements FilteredAdapter {
     public static async newAdapter(
         option: ConnectionOptions,
         findOptions: FindManyOptions = {},
-        casbinRuleEntity?: BaseEntity,
     ) {
         const defaults = {
             synchronize: true,
             name: 'node-casbin-official',
         };
-        const entities = {entities: [ casbinRuleEntity ? casbinRuleEntity : this.getCasbinRuleType(option.type) ]};
+        const entities = {
+            entities: option.entities ? option.entities : [ this.getCasbinRuleType(option.type) ],
+        };
         const configuration = Object.assign(defaults, option);
         const a = new TypeORMAdapter(Object.assign(configuration, entities), findOptions);
         await a.open();
