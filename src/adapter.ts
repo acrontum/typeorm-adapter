@@ -14,7 +14,7 @@
 
 import {Helper, Model, FilteredAdapter} from 'casbin';
 import {CasbinRule} from './casbinRule';
-import {Connection, ConnectionOptions, createConnection, getRepository, getConnection, FindManyOptions} from 'typeorm';
+import {Connection, ConnectionOptions, createConnection, getRepository, getConnection, FindManyOptions, BaseEntity} from 'typeorm';
 import {CasbinMongoRule} from './casbinMongoRule';
 
 type GenericCasbinRule = CasbinRule | CasbinMongoRule;
@@ -42,12 +42,16 @@ export default class TypeORMAdapter implements FilteredAdapter {
      * newAdapter is the constructor.
      * @param option typeorm connection option
      */
-    public static async newAdapter(option: ConnectionOptions, findOptions: FindManyOptions = {}) {
+    public static async newAdapter(
+        option: ConnectionOptions,
+        findOptions: FindManyOptions = {},
+        casbinRuleEntity?: BaseEntity,
+    ) {
         const defaults = {
             synchronize: true,
             name: 'node-casbin-official',
         };
-        const entities = {entities: [this.getCasbinRuleType(option.type)]};
+        const entities = {entities: [ casbinRuleEntity ? casbinRuleEntity : this.getCasbinRuleType(option.type) ]};
         const configuration = Object.assign(defaults, option);
         const a = new TypeORMAdapter(Object.assign(configuration, entities), findOptions);
         await a.open();
