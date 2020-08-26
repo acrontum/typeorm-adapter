@@ -31,12 +31,13 @@
   },
   "files": [
     "lib",
-    "examples"
+    "examples",
+    "src"
   ],
   "homepage": "https://casbin.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/node-casbin/typeorm-adapter.git"
+    "url": "https://github.com/acrontum/typeorm-adapter"
   },
   "keywords": [
     "casbin",
@@ -60,7 +61,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/node-casbin/typeorm-adapter/issues"
+    "url": "https://github.com/acrontum/typeorm-adapter/issues"
   },
   "lint-staged": {
     "*.{ts,js}": [
