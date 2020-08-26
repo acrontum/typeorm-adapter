@@ -9,46 +9,46 @@ export default class TypeORMAdapter implements FilteredAdapter {
     private typeorm;
     private filtered;
     private constructor();
-    public isFiltered(): boolean;
+    isFiltered(): boolean;
     /**
      * newAdapter is the constructor.
      * @param option typeorm connection option
      */
-    public static newAdapter(option: ConnectionOptions, findOptions?: FindManyOptions): Promise<TypeORMAdapter>;
+    static newAdapter(option: ConnectionOptions, findOptions?: FindManyOptions): Promise<TypeORMAdapter>;
     private open;
-    public close(): Promise<void>;
+    close(): Promise<void>;
     private clearTable;
     private loadPolicyLine;
     /**
      * loadPolicy loads all policy rules from the storage.
      */
-    public loadPolicy(model: Model): Promise<void>;
-    public loadFilteredPolicy(model: Model, filter: object): Promise<void>;
+    loadPolicy(model: Model): Promise<void>;
+    loadFilteredPolicy(model: Model, filter: object): Promise<void>;
     private savePolicyLine;
     /**
      * savePolicy saves all policy rules to the storage.
      */
-    public savePolicy(model: Model): Promise<boolean>;
+    savePolicy(model: Model): Promise<boolean>;
     /**
      * addPolicy adds a policy rule to the storage.
      */
-    public addPolicy(sec: string, ptype: string, rule: string[]): Promise<void>;
+    addPolicy(sec: string, ptype: string, rule: string[]): Promise<void>;
     /**
      * addPolicies adds policy rules to the storage.
      */
-    public addPolicies(sec: string, ptype: string, rules: string[][]): Promise<void>;
+    addPolicies(sec: string, ptype: string, rules: string[][]): Promise<void>;
     /**
      * removePolicy removes a policy rule from the storage.
      */
-    public removePolicy(sec: string, ptype: string, rule: string[]): Promise<void>;
+    removePolicy(sec: string, ptype: string, rule: string[]): Promise<void>;
     /**
      * removePolicies removes policy rules from the storage.
      */
-    public removePolicies(sec: string, ptype: string, rules: string[][]): Promise<void>;
+    removePolicies(sec: string, ptype: string, rules: string[][]): Promise<void>;
     /**
      * removeFilteredPolicy removes policy rules that match the filter from the storage.
      */
-    public removeFilteredPolicy(sec: string, ptype: string, fieldIndex: number, ...fieldValues: string[]): Promise<void>;
+    removeFilteredPolicy(sec: string, ptype: string, fieldIndex: number, ...fieldValues: string[]): Promise<void>;
     private getCasbinRuleConstructor;
     /**
      * Returns either a {@link CasbinRule} or a {@link CasbinMongoRule}, depending on the type. This switch is required as the normal
